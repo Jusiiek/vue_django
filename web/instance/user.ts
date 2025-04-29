@@ -9,14 +9,15 @@ export interface UserInterface {
     is_active: boolean
     is_superuser: boolean
     is_verified: boolean
+    is_global_superuser: boolean
 }
 
 
 class User {
   private user: UserInterface | null = null;
   private tokenData: TokenInterface | null = null;
-  private userKey = "ai_chat_user";
-  private tokenKey = "ai_chat_token";
+  private userKey = "vue_django_user";
+  private tokenKey = "vue_django_token";
 
   get() {
     if (process.client) {
@@ -79,9 +80,9 @@ class User {
     return this.tokenData?.token_type;
   }
 
-  isSuperUser() {
+  isGlobalSuperUser() {
     this.get();
-    return this.user?.is_superuser;
+    return this.user?.is_global_superuser;
   }
 }
 

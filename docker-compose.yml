@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  global_db:
+    image: postgres:15
+    container_name: global_postgres
+    environment:
+      POSTGRES_DB: global_db
+      POSTGRES_USER: global_user
+      POSTGRES_PASSWORD: global_password
+    ports:
+      - "5433:5432"
+    volumes:
+      - global_postgres_data:/var/lib/postgresql/data
+
+  global_api:
+    build:
+      context: ./global_api
+    container_name: global_api
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./global_api:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - global_db
+    environment:
+      POSTGRES_DB: global_db
+      POSTGRES_USER: global_user
+      POSTGRES_PASSWORD: global_password
+      POSTGRES_HOST: global_db
+      POSTGRES_PORT: 5432
+
+  store_db:
+    image: postgres:15
+    container_name: store_postgres
+    environment:
+      POSTGRES_DB: store_db
+      POSTGRES_USER: store_user
+      POSTGRES_PASSWORD: store_password
+    ports:
+      - "5434:5432"
+    volumes:
+      - store_postgres_data:/var/lib/postgresql/data
+
+  store_api:
+    build:
+      context: ./store_api
+    container_name: store_api
+    command: python manage.py runserver 0.0.0.0:8001
+    volumes:
+      - ./store_api:/code
+    ports:
+      - "8001:8001"
+    depends_on:
+      - store_db
+    environment:
+      POSTGRES_DB: store_db
+      POSTGRES_USER: store_user
+      POSTGRES_PASSWORD: store_password
+      POSTGRES_HOST: store_db
+      POSTGRES_PORT: 5432
+
+  web:
+    build:
+      context: ./web
+    container_name: web_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+    command: "npm run dev"
+
+volumes:
+  global_postgres_data:
+  store_postgres_data:
