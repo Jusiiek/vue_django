@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
+<ol>
+    {% for user in users %}
+    <li>
+        <h6>
+            {{ user.email }}
+        </h6>
+        <p>is_global_user: {% if user.is_global_user %} Yes {% else %} No {% endif %}</p>
+        <p>is_superuser: {% if user.is_superuser %} Yes {% else %} No {% endif %}</p>
+        <p>is_staff: {% if user.is_staff %} Yes {% else %} No {% endif %}</p>
+        <p>is_active: {% if user.is_active %} Yes {% else %} No {% endif %}</p>
+        <p>created: {{ user.created }}</p>
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}

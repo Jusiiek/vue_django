@@ -1,4 +1,5 @@
 # Create your views here.
+from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions
@@ -25,10 +26,10 @@ class LoginView(APIView):
 
         token = AuthToken.objects.create(
             user=user,
-            token_type='login',
             expires_at=timezone.now() + timedelta(hours=1)
         )
-        return Response({'token': str(token.token)}, status=status.HTTP_200_OK)
+        serializer = AuthTokenSerializer(token, many=False)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):

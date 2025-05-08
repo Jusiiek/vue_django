@@ -1,4 +1,9 @@
 from rest_framework import serializers
 
-class AuthTokenResponseSerializer(serializers.Serializer):
-    token = serializers.CharField()
+from .models import AuthToken
+
+class AuthTokenResponseSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AuthToken
+        fields = ('token')
