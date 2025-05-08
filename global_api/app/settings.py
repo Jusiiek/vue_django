@@ -10,12 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+load_dotenv()
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -38,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'auth',
+    'c_auth',
     'users'
 ]
 
@@ -53,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'app.urls'
+AUTH_USER_MODEL = 'users.User'
 
 TEMPLATES = [
     {
@@ -69,16 +72,31 @@ TEMPLATES = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'c_auth.authenticator.BearerTokenAuthentication',
+    ],
+}
+
 WSGI_APPLICATION = 'app.wsgi.application'
 
+POSTGRES_DB = os.environ.get('POSTGRES_DB', 'postgres')
+POSTGRES_USER = os.environ.get('POSTGRES_USER', 'global_user')
+POSTGRES_PASSWORD = os.environ.get('POSTGRES_PASSWORD', 'global_password')
+POSTGRES_HOST = os.environ.get('POSTGRES_HOST', 'localhost')
+POSTGRES_PORT = os.environ.get('POSTGRES_PORT', '5432')
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': POSTGRES_DB,
+        'USER': POSTGRES_USER,
+        'PASSWORD': POSTGRES_PASSWORD,
+        'HOST': POSTGRES_HOST,
+        'PORT': POSTGRES_PORT,
     }
 }
 

@@ -1,0 +1,18 @@
+[
+  {
+    "email": "test_global_admin@test.com",
+    "password": "123456",
+    "is_global_user": true,
+    "is_active": true,
+    "is_superuser": true,
+    "is_staff": true
+  },
+  {
+    "email": "test_global_user@test.com",
+    "password": "123456",
+    "is_global_user": true,
+    "is_active": true,
+    "is_superuser": false,
+    "is_staff": false
+  }
+]
