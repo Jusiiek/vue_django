@@ -1,5 +1,5 @@
 export interface TokenInterface {
-    access_token: string;
+    token: string;
 }
 
 export interface UserInterface {
@@ -73,7 +73,7 @@ class User {
 
   getToken() {
     this.get()
-    return this.tokenData?.access_token;
+    return this.tokenData?.token;
   }
 
   isGlobalUser() {

@@ -18,6 +18,7 @@ export default defineNuxtConfig({
     public: {
       GLOBAL_API: process.env.GLOBAL_API,
       STORE_API: process.env.STORE_API,
+      STORE_NAME: process.env.STORE_NAME,
     },
   }
 })

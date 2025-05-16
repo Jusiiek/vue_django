@@ -1,11 +1,12 @@
 import { useBaseUrl } from "~/constant/config";
-import {request, RequestResponse} from "~/utils/request";
+import { request } from "~/utils/request";
+import type { RequestResponse } from '~/interfaces'
 
 
 class User {
     async getUserList(): Promise<RequestResponse> {
         return await request({
-            url: `${useBaseUrl()}api/users`,
+            url: `${useBaseUrl()}api/users/`,
         })
     }
 

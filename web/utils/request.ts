@@ -1,32 +1,12 @@
 import { ActiveUser } from "~/instance/user";
-
-export interface ServiceReturnInterface {
-    res: Response;
-    data: any;
-}
-
-export interface RequestParams {
-    url: string;
-    query?: Record<string, string | number | boolean>;
-    headers?: Record<string, string>;
-    method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
-    body?: Record<string, any>;
-    formData?: FormData;
-    skipRedirect?: boolean;
-    [key: string]: any;
-}
-
-export interface RequestResponse extends ServiceReturnInterface {
-    headers: Headers
-}
-
+import type { RequestResponse, RequestParams } from '~/interfaces'
 
 export const redirectIfNotAuthenticated = (res: Response) => {
   if (res.status === 401) {
     ActiveUser.clear();
     return window.location.replace("/auth/login");
   }
-  if (res.status === 403) return window.location.replace("/");
+  // if (res.status === 403) return window.location.replace("/");
 };
 
 export const encodeQuery = (query: Record<string, any>) => {

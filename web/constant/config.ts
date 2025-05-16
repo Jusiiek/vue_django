@@ -10,3 +10,8 @@ export const useBaseUrl = (is_global=false) => {
     ? config.public.GLOBAL_API
     : config.public.STORE_API
 }
+
+export const getStoreName = () => {
+  const config = useRuntimeConfig()
+  return config.public.STORE_NAME
+}

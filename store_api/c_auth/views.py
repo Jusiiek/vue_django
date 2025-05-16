@@ -22,6 +22,13 @@ class LoginView(APIView):
             )
 
         user, created = User.objects.get_or_create(email=email)
+
+        if not user:
+            return Response(
+                {'error': 'User not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
         AuthToken.objects.filter(user=user, expires_at__gt=timezone.now()).delete()
 
         token = AuthToken.objects.create(

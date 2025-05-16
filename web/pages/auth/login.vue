@@ -49,19 +49,28 @@ const isGlobal = route.query.global === 'true';
 const onSubmit = async () => {
   loading.value = true
 
-  let { res, data } = await AuthService.login(form.value.email, isGlobal);
-  if (res.status === 200 && data) {
-    console.log("data", data)
-    ActiveUser.setToken(data)
-    let { res, data } = await UserService.getUser("me", isGlobal);
+  try {
+    const { res, data } = await AuthService.login(form.value.email, isGlobal)
     if (res.status === 200 && data) {
-      ActiveUser.set(data);
-      navigateTo('/')
-    }
-  }
+      console.log("Logged in:", data)
 
-  loading.value = false
-  form.value.email = ''
+      ActiveUser.setToken(data)
+
+      const { res: userRes, data: userData } = await UserService.getUser("me", isGlobal)
+      if (userRes.status === 200 && userData) {
+        ActiveUser.set(userData)
+        navigateTo('/')
+      } else {
+        console.error('Failed to fetch user data:', userRes.status)
+      }
+    } else {
+      console.error('Login failed:', res.status)
+    }
+  } catch (error) {
+    console.error('Unexpected error:', error)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 

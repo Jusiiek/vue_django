@@ -14,6 +14,7 @@ const isUserGlobal = ActiveUser.isGlobalUser() || false;
 const items = ref<DropdownMenuItem[]>([
   {
     label: 'Logout',
+    color: 'error',
     icon: 'i-heroicons-arrow-left-on-rectangle',
     onSelect() {
       logout();
@@ -24,12 +25,14 @@ const items = ref<DropdownMenuItem[]>([
 
 <template>
   <div class="flex items-center justify-between px-6 py-4 bg-gray-900 shadow">
-    <div class="text-xl font-bold">My App</div>
+    <div class="text-xl font-bold">
+      <ULink to="/">My App</ULink>
+    </div>
 
     <div>
-      <ULink to="/users" v-if="!isUserGlobal">User List</ULink>
-      <ULink to="/global/users" v-if="isUserGlobal">User List</ULink>
-      <ULink to="/global" v-if="isUserGlobal">Create a store</ULink>
+      <ULink to="/users" v-if="!isUserGlobal" class="mr-3">User List</ULink>
+      <ULink to="/global/users" v-if="isUserGlobal" class="mr-3">User List</ULink>
+      <ULink to="/global" v-if="isUserGlobal" class="mr-3">Create a store</ULink>
       <UDropdownMenu
           :items="items"
           :content="{
