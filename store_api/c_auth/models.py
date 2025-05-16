@@ -7,13 +7,6 @@ from users.models import User
 # Create your models here.
 
 class AuthToken(models.Model):
-    TOKEN_TYPE_CHOICES = [
-        ('login', 'Login'),
-        ('logout', 'Logout'),
-        ('api', 'API Access'),
-        ('reset', 'Password Reset'),
-    ]
-
     token = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='auth_tokens')
     created_at = models.DateTimeField(auto_now_add=True)

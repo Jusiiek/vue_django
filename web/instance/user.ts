@@ -1,15 +1,16 @@
 export interface TokenInterface {
     access_token: string;
-    token_type: string
 }
 
 export interface UserInterface {
     id: string
     email: string
+    is_staff: boolean
     is_active: boolean
-    is_superuser: boolean
     is_verified: boolean
-    is_global_superuser: boolean
+    is_superuser: boolean
+    is_global_user: boolean
+    created: string
 }
 
 
@@ -75,14 +76,9 @@ class User {
     return this.tokenData?.access_token;
   }
 
-  getTokenType() {
-    this.get()
-    return this.tokenData?.token_type;
-  }
-
-  isGlobalSuperUser() {
+  isGlobalUser() {
     this.get();
-    return this.user?.is_global_superuser;
+    return this.user?.is_global_user;
   }
 }
 

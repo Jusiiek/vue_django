@@ -2,7 +2,7 @@ from django.views.generic import ListView
 
 from rest_framework.response import Response
 from rest_framework import status, permissions, viewsets
-
+from django.shortcuts import get_object_or_404
 
 from .models import User
 from .serializers import UserSerializer
@@ -29,4 +29,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_queryset(), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def retrieve(self, request, pk=None, *args, **kwargs):
+        if pk == 'me':
+            user = request.user
+        else:
+            user = get_object_or_404(self.get_queryset(), pk=pk)
+        serializer = self.get_serializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)

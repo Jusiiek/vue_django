@@ -2,14 +2,14 @@
 import {ref} from 'vue'
 import {navigateTo} from 'nuxt/app'
 import type {DropdownMenuItem} from '@nuxt/ui'
+import {ActiveUser} from "~/instance/user";
 
 const logout = async() => {
-  console.log("LOGOUT")
-  // if (process.client) {
-  //   localStorage.removeItem('user')
-  // }
-  // navigateTo('/auth/login')
+  ActiveUser.clear()
+  navigateTo('/auth/login')
 }
+
+const isUserGlobal = ActiveUser.isGlobalUser() || false;
 
 const items = ref<DropdownMenuItem[]>([
   {
@@ -27,6 +27,9 @@ const items = ref<DropdownMenuItem[]>([
     <div class="text-xl font-bold">My App</div>
 
     <div>
+      <ULink to="/users" v-if="!isUserGlobal">User List</ULink>
+      <ULink to="/global/users" v-if="isUserGlobal">User List</ULink>
+      <ULink to="/global" v-if="isUserGlobal">Create a store</ULink>
       <UDropdownMenu
           :items="items"
           :content="{

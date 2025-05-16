@@ -1,4 +1,4 @@
-import { ActiveUser } from "@/instance/user";
+import { ActiveUser } from "~/instance/user";
 
 export interface ServiceReturnInterface {
     res: Response;
@@ -45,7 +45,7 @@ export const request = async ({
   ...rest
 }: RequestParams): Promise<RequestResponse> => {
   const methodLower = method.toLowerCase();
-  const jsonMethods = ["post", "put", "patch", "delete"];
+  const jsonMethods = ["get", "post", "put", "patch", "delete"];
   if (body && jsonMethods.includes(methodLower) && !headers["Content-Type"]) {
     headers["Content-Type"] = "application/json";
   }
@@ -61,9 +61,8 @@ export const request = async ({
     }
   }
   const token = ActiveUser.getToken()
-  const tokenType = ActiveUser.getTokenType()
-  if (token && tokenType) {
-    headers.Authorization = `${tokenType} ${token}`;
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
   }
 
   if (query) {

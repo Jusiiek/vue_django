@@ -14,4 +14,10 @@ export default defineNuxtConfig({
     ],
   },
   css: ['./assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      GLOBAL_API: process.env.GLOBAL_API,
+      STORE_API: process.env.STORE_API,
+    },
+  }
 })

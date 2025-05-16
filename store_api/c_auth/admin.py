@@ -15,5 +15,4 @@ class AuthTokenAdmin(admin.ModelAdmin):
     is_valid.boolean = True
     is_valid.short_description = 'Token Valid'
 
-
 admin.site.register(AuthToken, AuthTokenAdmin)

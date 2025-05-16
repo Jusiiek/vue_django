@@ -13,10 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'email',
-            'is_global_user',
-            'is_superuser',
             'is_staff',
             'is_active',
+            'is_superuser',
+            'is_global_user',
             'created'
         )
 

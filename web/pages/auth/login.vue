@@ -32,28 +32,36 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { navigateTo } from 'nuxt/app'
+import { useRoute } from '#imports'
+import { ActiveUser } from "~/instance/user"
+import { AuthService } from "~/services/auth";
+import { UserService } from "~/services/user";
+
+const route = useRoute()
 
 const form = ref({
   email: '',
 })
 
 const loading = ref(false)
+const isGlobal = route.query.global === 'true';
 
 const onSubmit = async () => {
   loading.value = true
 
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    const userData = { email: form.value.email }
-    if (process.client) {
-      localStorage.setItem('user', JSON.stringify(userData))
+  let { res, data } = await AuthService.login(form.value.email, isGlobal);
+  if (res.status === 200 && data) {
+    console.log("data", data)
+    ActiveUser.setToken(data)
+    let { res, data } = await UserService.getUser("me", isGlobal);
+    if (res.status === 200 && data) {
+      ActiveUser.set(data);
+      navigateTo('/')
     }
-    navigateTo('/')
-  } catch (error) {
-    console.error(error)
-  } finally {
-    loading.value = false
   }
+
+  loading.value = false
+  form.value.email = ''
 }
 </script>
 
