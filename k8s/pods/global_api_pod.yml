@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: global-api-pod
+  labels:
+    name: global-api-pod
+    app: demo-vue-django-app
+spec:
+  containers:

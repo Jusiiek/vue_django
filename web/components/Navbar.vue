@@ -4,7 +4,7 @@ import {navigateTo} from 'nuxt/app'
 import type {DropdownMenuItem} from '@nuxt/ui'
 import {ActiveUser} from "~/instance/user";
 
-const logout = async() => {
+const logout = async () => {
   ActiveUser.clear()
   navigateTo('/auth/login')
 }
@@ -30,8 +30,12 @@ const items = ref<DropdownMenuItem[]>([
     </div>
 
     <div>
-      <ULink to="/users" v-if="!isUserGlobal" class="mr-3">User List</ULink>
-      <ULink to="/global/users" v-if="isUserGlobal" class="mr-3">User List</ULink>
+      <ULink
+          :to="isUserGlobal ? '/users?global=true' : '/users'"
+          class="mr-3"
+      >
+        User List
+      </ULink>
       <ULink to="/global" v-if="isUserGlobal" class="mr-3">Create a store</ULink>
       <UDropdownMenu
           :items="items"
@@ -45,12 +49,12 @@ const items = ref<DropdownMenuItem[]>([
           }"
       >
         <UAvatar
-              size="md"
-              src="https://i.pravatar.cc/150?img=3"
-              alt="User Avatar"
-              class="cursor-pointer"
-              label="open"
-          />
+            size="md"
+            src="https://i.pravatar.cc/150?img=3"
+            alt="User Avatar"
+            class="cursor-pointer"
+            label="open"
+        />
 
       </UDropdownMenu>
     </div>

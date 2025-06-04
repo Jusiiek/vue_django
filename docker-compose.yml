@@ -12,24 +12,27 @@ services:
       - "5433:5432"
     volumes:
       - global_postgres_data:/var/lib/postgresql/data
+    networks:
+      - global_backend
 
-#  global_api:
-#    build:
-#      context: ./global_api
-#    container_name: global_api
-#    command: python manage.py runserver 0.0.0.0:8000
-#    volumes:
-#      - ./global_api:/code
-#    ports:
-#      - "8000:8000"
-#    depends_on:
-#      - global_db
-#    environment:
-#      POSTGRES_DB: global_db
-#      POSTGRES_USER: global_user
-#      POSTGRES_PASSWORD: global_password
-#      POSTGRES_HOST: global_db
-#      POSTGRES_PORT: 5432
+  global_api:
+    build:
+      context: ./global_api
+    container_name: global_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - global_db
+    environment:
+      POSTGRES_DB: global_db
+      POSTGRES_USER: global_user
+      POSTGRES_PASSWORD: global_password
+      POSTGRES_HOST: global_db
+      POSTGRES_PORT: 5432
+      WEB_HOST: http://localhost:3000
+    networks:
+      - global_backend
+      - global_api
 
   store_db:
     image: postgres:15
@@ -61,16 +64,26 @@ services:
 #      POSTGRES_HOST: store_db
 #      POSTGRES_PORT: 5432
 
-#  web:
-#    build:
-#      context: ./web
-#    container_name: web_frontend
-#    ports:
-#      - "3000:3000"
-#    volumes:
-#      - ./web:/app
-#    command: "npm run dev"
+  web:
+    build:
+      context: ./web
+    container_name: web_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./web:/app
+    command: "npm run dev"
+    environment:
+      GLOBAL_API: http://localhost:8000/
+      STORE_API: http://localhost:8001/
+      STORE_NAME: DockerCompose
+    networks:
+      - global_api
 
 volumes:
   global_postgres_data:
   store_postgres_data:
+
+networks:
+  global_backend:
+  global_api:

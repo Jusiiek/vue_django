@@ -18,8 +18,25 @@ interface RequestParams {
     [key: string]: any;
 }
 
+interface TokenInterface {
+    token: string;
+}
+
+interface UserInterface {
+    id: string
+    email: string
+    is_staff: boolean
+    is_active: boolean
+    is_verified: boolean
+    is_superuser: boolean
+    is_global_user: boolean
+    created: string
+}
+
 export type {
     RequestResponse,
     ServiceReturnInterface,
-    RequestParams
+    RequestParams,
+    TokenInterface,
+    UserInterface
 }

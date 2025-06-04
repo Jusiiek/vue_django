@@ -8,7 +8,7 @@
       </div>
 
       <UButton color="error" @click="onDelete">
-        Delete Pod
+        Delete Store
       </UButton>
     </div>
   </UCard>

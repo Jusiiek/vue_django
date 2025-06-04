@@ -3,7 +3,6 @@ from django.views.generic import ListView
 from rest_framework.response import Response
 from rest_framework import status, permissions, viewsets
 from django.shortcuts import get_object_or_404
-from rest_framework.decorators import action
 
 from .models import User
 from .serializers import UserSerializer
@@ -29,6 +28,8 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
 
     def list(self, request, *args, **kwargs):
+        if not request.user.is_global_user:
+            return Response([], status=status.HTTP_403_FORBIDDEN)
         serializer = self.get_serializer(self.get_queryset(), many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 

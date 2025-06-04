@@ -1,11 +1,11 @@
 #!/bin/bash
 
-set -e  # Exit on error
+set -e
 
 COMMAND=$1
 FIXTURE=${2:-""}
 
-cd "$(dirname "$0")/.."  # Go to project root (one level above scripts)
+cd "$(dirname "$0")/.."
 
 APPS=$(cat scripts/apps.txt)
 

@@ -4,9 +4,9 @@ import type { RequestResponse } from '~/interfaces'
 
 
 class User {
-    async getUserList(): Promise<RequestResponse> {
+    async getUserList(is_global: boolean=false): Promise<RequestResponse> {
         return await request({
-            url: `${useBaseUrl()}api/users/`,
+            url: `${useBaseUrl(is_global)}api/users/`,
         })
     }
 
